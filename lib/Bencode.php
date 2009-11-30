@@ -82,11 +82,11 @@ class Bencode
                     if (isset($tokens[++$i])) {
                         $dict[$key] = self::decode($tokens, $i);
                     } else {
-                        throw new Exception("Dictionary key ($key) without value at index " . $i);
+                        throw new Exception("Dictionary key ($key) without a value at index $i");
                     }
                 }
             }
-            throw new Exception("Unterminated dictionary at index " . $i);
+            throw new Exception("Unterminated dictionary at index $i");
 
         case "l":
             $list = array();
@@ -97,7 +97,7 @@ class Bencode
                     $list[] = self::decode($tokens, $i);
                 }
             }
-            throw new Exception("Unterminated list at index " . $i);
+            throw new Exception("Unterminated list at index $i");
 
         case "i":
             $buffer = '';
@@ -107,10 +107,10 @@ class Bencode
                 } elseif (ctype_digit($tokens[$i])) {
                     $buffer .= $tokens[$i];
                 } else {
-                    throw new Exception("Unexpected token while parsing integer: " . $tokens[$i]);
+                    throw new Exception("Unexpected token while parsing integer at index $i: {$tokens[$i]}");
                 }
             }
-            throw new Exception("Unterminated integer at index " . $i);
+            throw new Exception("Unterminated integer at index $i");
 
         case ctype_digit($tokens[$i]):
             $length = $tokens[$i];
@@ -120,7 +120,7 @@ class Bencode
                 } elseif (ctype_digit($tokens[$i])) {
                     $length .= $tokens[$i];
                 } else {
-                    throw new Exception("Unexpected token while parsing string length: " . $tokens[$i]);
+                    throw new Exception("Unexpected token while parsing string length at index $i: {$tokens[$i]}");
                 }
             }
             $end = $i + intval($length);
@@ -133,10 +133,10 @@ class Bencode
                     }
                 }
             }
-            throw new Exception("Unterminated string at index " . $i);
+            throw new Exception("Unterminated string at index $i");
         }
 
-        throw new Exception("Unexpected token at index " . $i);
+        throw new Exception("Unexpected token at index $i: {$tokens[$i]}");
     }
 
     /**
