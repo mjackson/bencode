@@ -35,7 +35,7 @@ class Bencode
             return strlen($value) . ":" . $value;
         }
         if (is_array($value)) {
-            if (self::isDict($value)) {
+            if (self::isAssoc($value)) {
                 ksort($value, SORT_STRING);
                 $buffer = "d";
                 foreach ($value as $key => $v) {
@@ -140,19 +140,26 @@ class Bencode
     }
 
     /**
-     * Returns true if the given array has any keys that are not integers.
+     * Tells whether an array is associative or not. In order to be non-associative,
+     * each of the array's key numbers must correspond exactly to it's position
+     * in the array.
      *
      * @param   array
      * @return  bool
      */
-    protected static function isDict($array)
+    public static function isAssoc($array)
     {
-        foreach ($array as $key => $value) {
-            if (!is_int($key)) {
-                return true;
-            }
-        }
-        return false;
+        return count($array) !== array_reduce(array_keys($array), array("Bencode", "isAssocCallback"), 0);
+    }
+
+    /**
+     * A callback function used by {@link isAssoc()}.
+     *
+     * @return  int
+     */
+    protected static function isAssocCallback($a, $b)
+    {
+        return $a === $b ? $a + 1 : 0;
     }
 
 }
