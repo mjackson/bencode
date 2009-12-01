@@ -1,6 +1,6 @@
 ### Overview
 
-Bencode is a library for PHP that implements the bencode encoding algorithm.
+Bencode is a library for PHP that implements the [bencode](http://wikipedia.org/wiki/Bencode) encoding algorithm.
 
 ### Usage
 
