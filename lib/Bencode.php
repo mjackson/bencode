@@ -4,7 +4,7 @@
  * Contains a pair of recursive functions that implement the bencode data
  * encoding format.
  *
- * @author  Michael J. I. Jackson <michael@mjijackson.com>
+ * @author  Michael J. I. Jackson <mjijackson@gmail.com>
  */
 class Bencode
 {
